@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title></title>
+<style>
+*{
+	margin: 0;
+	padding: 0;
+}
+ul{
+	list-style: none;
+}
+body{
+	font-family: "微软雅黑";
+	font-size: 18px;
+	background: #f1f1f1;
+}
+#wrap{
+	width: 900px;
+	margin: 50px auto;
+	overflow: hidden;
+}
+h2{
+	width: 100%;
+	text-align: center;
+	line-height: 100px;
+	font-size: 50px;
+	font-weight: normal;
+	margin-bottom: 20px;
+	cursor: pointer;
+}
+#calendar{
+	width: 490px;
+	height: 560px;
+	background: #fff;
+	float: left;
+}
+#calendar .title,#calendar .titleYear{
+	width: 450px;
+	height: 70px;
+	line-height: 70px;
+	padding: 0 20px;
+}
+#calendar .titleYear{
+	display: none;
+}
+#calendar .title li,#calendar .titleYear li{
+	float: left;
+	cursor: pointer;
+}
+#calendar .title li:nth-of-type(1),#calendar .titleYear li:nth-of-type(3),#calendar .titleYear li:nth-of-type(1),#calendar .title li:nth-of-type(3){
+	width: 50px;
+	height: 40px;
+	padding-top: 15px;
+}
+#calendar .title li:nth-of-type(2),#calendar .titleYear li:nth-of-type(2){
+	width: 350px;
+	text-align: center;
+	font-size: 20px;
+}
+#calendar .title img,#calendar .titleYear img{
+	width: 100%;
+}
+#calendar .week{
+	width: 490px;
+	height: 70px;
+	line-height: 70px;
+}
+#calendar .week li{
+	width: 70px;
+	height: 70px;
+	float: left;
+	text-align: center;
+}
+#calendar .week li:nth-of-type(2n-1){
+	background: #d7ecff;
+}
+#calendar .week li:nth-of-type(2n){
+	background: #c2e1fd;
+}
+#calendar .calendarContent{
+	width: 490px;
+	height: 490px;
+	position: relative;
+	overflow: hidden;
+	display: block;
+	transform: scale(1);
+	transition: transform .5s;
+}
+#calendar .box,#calendar .nextBox{
+	width: 490px;
+	height: 420px;
+	position: absolute;
+	top: 70px;
+}
+#calendar .box{
+	left: 0;
+}
+#calendar .nextBox{
+	left: 490px;
+}
+#calendar .box li,#calendar .nextBox li{
+	width: 70px;
+	height: 70px;
+	text-align: center;
+	line-height: 70px;
+	float: left;
+	cursor: pointer;
+	border: 1px solid #f6fcff;
+	box-sizing: border-box;
+}
+#calendar .box li:nth-of-type(7n),#calendar .nextBox li:nth-of-type(7n){
+	color: #bdbdbd;
+}
+#calendar .box li:nth-of-type(7n+1),#calendar .nextBox li:nth-of-type(7n+1){
+	color: #bdbdbd;
+}
+#calendar .box li:hover,#calendar .nextBox li:hover{
+	border-radius: 50%;
+	background: #febd7f;
+	color: #fff;
+}
+#calendar .box li:empty:hover,#calendar .nextBox li:empty:hover{
+	background: #fff;
+}
+#calendar .box li.countday{
+	border-radius: 50%;
+	background: #f00;
+	color: #fff;
+}
+#calendar .box li.countday:hover{
+	background: #f00;
+}
+#calendar .nextBox li.countday{
+	background: none;
+}
+.calendarMon{
+	width: 490px;
+	height: 490px;
+	position: relative;
+	overflow: hidden;
+	visibility: hidden;
+}
+.calendarMon .calendarMonUl{
+	width: 490px;
+	height: 490px;
+	position: absolute;
+	top: 0;
+}
+.calendarMon .calendarMonInit{
+	left: 0;
+	transform: scale(1.5);
+	transition: transform .5s;
+}
+.calendarMon .calendarMonNext{
+	left: 490px;
+}
+.calendarMon .calendarMonUl li{
+	width: 163.33px;
+	height: 122.5px;
+	line-height: 122.5px;
+	text-align: center;
+	float: left;
+	background: #f6fcff;
+	border: 1px solid #fff;
+	box-sizing: border-box;
+	cursor: pointer;
+}
+
+#clock{
+	width: 400px;
+	height: 560px;
+	float: right;
+	text-align: center;
+}
+#clock .box{
+	width: 300px;
+	height: 300px;
+	margin: 70px auto;
+	border-radius: 50%;
+	background: #fff;
+	position: relative;
+	box-shadow: 0 0 20px rgba(0,0,0,0.1);
+}
+#clock .box ul{
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	left: 0;
+	top: 0;
+}
+#clock .box li{
+	width: 2px;
+	height: 6px;
+	position: absolute;
+	left: 149px;
+	top: 5px;
+	background: #ccc;
+	transform-origin: center 145px;
+}
+#clock .box li:nth-of-type(5n+1){
+	background: #000;
+	height: 10px;
+}
+#clock .box .hour{
+	width: 6px;
+	height: 70px;
+	position: absolute;
+	left: 147px;
+	top: 80px;
+	background: #000;
+	transform-origin: bottom;
+}
+#clock .box .hour:after{
+	content: '';
+	width: 6px;
+	height: 12px;
+	position: absolute;
+	left: 0;
+	bottom: -12px;
+	background: #000;
+}
+#clock .box .min{
+	width: 4px;
+	height: 90px;
+	position: absolute;
+	left: 148px;
+	top: 60px;
+	background: #000;
+	transform-origin: bottom;
+}
+#clock .box .min:after{
+	content: '';
+	width: 4px;
+	height: 18px;
+	position: absolute;
+	left: 0;
+	bottom: -18px;
+	background: #000;
+}
+#clock .box .sec{
+	width: 2px;
+	height: 120px;
+	position: absolute;
+	left: 149px;
+	top: 30px;
+	background: #f00;
+	transform-origin: bottom;
+}
+#clock .box .sec:after{
+	content: '';
+	width: 2px;
+	height: 24px;
+	position: absolute;
+	left: 0;
+	bottom: -24px;
+	background: #f00;
+}
+#clock .box .icon{
+	width: 14px;
+	height: 14px;
+	border-radius: 50%;
+	position: absolute;
+	left: 143px;
+	top: 143px;
+	background: #000;
+}
+#clock .time,#clock .clockWeek{
+	line-height: 40px;
+	font-size: 24px;
+}
+</style>
+</head>
+<body>
+<div id="wrap">
+	<h2></h2>
+	<div id="calendar">
+		<ul class="title">
+			<li class="arrowLeft"><img src="imgs/calendar-arrow-left.png"/></li>
+			<li class="changeMon"><span class="year"></span>年<span class="mon"></span>月</li>
+			<li class="arrowRight"><img src="imgs/calendar-arrow-right.png" alt="" /></li>
+		</ul>
+		<ul class="titleYear">
+			<li class="arrowLeft"><img src="imgs/calendar-arrow-left.png"/></li>
+			<li class="changeMon"><span class="year"></span>年</li>
+			<li class="arrowRight"><img src="imgs/calendar-arrow-right.png" alt="" /></li>
+		</ul>
+		<div class="calendarContent">
+			<ul class="week">
+				<li>日</li>
+				<li>一</li>
+				<li>二</li>
+				<li>三</li>
+				<li>四</li>
+				<li>五</li>
+				<li>六</li>
+			</ul>
+			<ul class="box"></ul>
+			<ul class="nextBox"></ul>
+		</div>
+		<div class="calendarMon">
+			<ul class="calendarMonUl calendarMonInit">
+				<li>一月</li>
+				<li>二月</li>
+				<li>三月</li>
+				<li>四月</li>
+				<li>五月</li>
+				<li>六月</li>
+				<li>七月</li>
+				<li>八月</li>
+				<li>九月</li>
+				<li>十月</li>
+				<li>十一月</li>
+				<li>十二月</li>
+			</ul>
+			<ul class="calendarMonUl calendarMonNext">
+				<li>一月</li>
+				<li>二月</li>
+				<li>三月</li>
+				<li>四月</li>
+				<li>五月</li>
+				<li>六月</li>
+				<li>七月</li>
+				<li>八月</li>
+				<li>九月</li>
+				<li>十月</li>
+				<li>十一月</li>
+				<li>十二月</li>
+			</ul>
+		</div>
+	</div>
+	<div id="clock">
+		<div class="box">
+			<ul class="content"></ul>
+			<p class="hour"></p>
+			<p class="min"></p>
+			<p class="sec"></p>
+			<p class="icon"></p>
+		</div>
+		<p class="time">17:07:09</p>
+		<p class="clockWeek">星期一</p>
+	</div>
+</div>
+<script src="js/tween.js"></script>
+<script src="js/calendar.js"></script>
+</body>
+</html>
